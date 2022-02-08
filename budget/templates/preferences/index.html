@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+
+    {% include 'partials/_messages.html' %}
+    <h5>Preferowana Waluta</h5>
+        <form action="{% url 'preferences' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+              <select name="currency"  class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+
+                  {% if user_preferences.currency %}
+                  <option name="currency" selected value="{{user_preferences.currency}}">{{user_preferences.currency}}</option>
+                  {%endif %}
+
+
+                  {% for currency in currencies %}
+                    <option name="currency" value="{{currency.name}} - {{currency.value}}">{{currency.name}} - {{currency.value}}</option>
+
+                  {% endfor %}
+
+              </select>
+              <input class="btn btn-outline-secondary" type="submit" value="Zapisz" />
+            </div>
+        </form>
+    <hr/>
+</div>
+
+<div class="container mt-3">
+
+
+    <h5>Spis Kategorii Wdyatków</h5>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th><a href="{% url 'category-add' %}" class="btn btn-primary btn-sm">Dodaj</a></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for category in category %}
+            <tr>
+                <td>{{ category.name }}</td>
+                <td style="width:5%"><a href="{% url 'category-edit' category.id %}" class="btn btn-secondary btn-sm">Modyfikuj</a></td>
+                <td style="width:5%"><a href="{% url 'category-delete' category.id %}" class="btn btn-danger btn-sm">Usuń</a> </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+
+
+<div class="container mt-3">
+
+
+    <h5>Spis Źródeł Dochodu</h5>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th><a href="{% url 'source-add' %}" class="btn btn-primary btn-sm">Dodaj</a></th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for source in source %}
+            <tr>
+                <td>{{ source.name }}</td>
+                <td style="width:5%"><a href="{% url 'source-edit' source.id %}" class="btn btn-secondary btn-sm">Modyfikój</a>     </td>
+                    <td style="width:5%"><a href="{% url 'source-delete' source.id %}" class="btn btn-danger btn-sm">Usuń</a> </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+<div class="container mt-3">
+
+
+    <h5>Spis Lokalizacji</h5>
+
+        <div class="table">
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th><a href="{% url 'budynek-add' %}" class="btn btn-primary btn-sm">Dodaj</a></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for budynek in budynek %}
+            <tr>
+                <td>{{ budynek.name }}</td>
+                <td style="width:5%"><a href="{% url 'budynek-edit' budynek.id %}" class="btn btn-secondary btn-sm">Modyfikuj</a></td>
+                <td style="width:5%"><a href="{% url 'budynek-delete' budynek.id %}" class="btn btn-danger btn-sm">Usuń</a> </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <hr/>
+</div>
+
+
+
+
+{% endblock content %}

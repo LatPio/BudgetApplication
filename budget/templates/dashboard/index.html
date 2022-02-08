@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-xl mt-4">
+    {% include 'partials/_messages.html' %}
+    <div class="row">
+        <div class="col sm-3">
+            <div class="card text-center align-middle" style="width:10rem;height:11rem;">
+                <div class="card-body">
+                        <h2 class="card-title">Aktualny Rok</h2>
+                        <h1 class="card-text"> {{ today.year }} </h1>
+                </div>
+            </div>
+        </div>
+        <div class="col sm-3">
+            <div class="card text-white bg-success" style="width:20rem;height:11rem">
+                <div class="card-body">
+                    <h5 class="card-title">Przychody</h5>
+                    <p class="fs-2">{{sumIncome.amount__sum|floatformat:"2g" }} {{val}}</p>
+                    <a href="{% url 'income' %}" class="btn btn-primary">Przychody</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col sm-3">
+            <div class="card text-white bg-danger" style="width: 20rem;height:11rem">
+                <div class="card-body">
+                    <h5 class="card-title">Wydatki</h5>
+                    <p class="fs-2">{{sumExpenses.amount__sum|floatformat:"2g" }} {{val}}</p>
+
+                    <a href="{% url 'expenses' %}" class="btn btn-primary">Rozchody</a>
+                </div>
+            </div>
+        </div>
+        <div class="col sm-3">
+            <div class="card text-white bg-warning" style="width: 25rem;height:11rem">
+                <div class="card-body">
+                    <h5 class="card-title">Dostępne Środki</h5>
+                    <p class="fs-2">{{balance|floatformat:"2g" }} {{val}}</p>
+
+                    <a href="{% url 'transakcje' %}" class="btn btn-primary">Transakcje</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-4">
+        <div class="col sm-3">
+            <div class="card text-center align-middle" style="width:10rem;height:46rem">
+
+                <div class="card-body">
+                    <h5 class="card-title">Podsumownie innych lat</h5>
+                {% for rok in roki %}
+                <h3><a href=" {% url 'yearView' rok %}" class="btn btn-secondary btn-sm">{{rok}}</a></h3>
+                {% endfor%}
+                    </div>
+
+            </div>
+        </div>
+        <div class="col sm-9">
+            <div class="card" style="width: 68rem">
+                <div class="card-body">
+                    <h5 class="card-title">Zestawienie miesiączene {{ today.year }} </h5>
+                    <p class="fs-2"></p>
+                    <div>
+                        <canvas id="myChart" width="400" height="251"></canvas>
+                            <script>
+                            const ctx = document.getElementById('myChart').getContext('2d');
+                            const myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpierń', 'Wrzesień', 'Październik', 'listopad', 'Grudzień'],
+                                    datasets: [{
+                                        label: 'Wpływy',
+                                        data: [{% for sums in monthlydataIncome %} {{ sums }}, {% endfor %} ],
+                                        backgroundColor: [
+                                            'rgba(58, 203, 49, 0.8)',
+                                        ],
+                                        borderWidth: 0
+                                    },
+                                    {
+                                        label: 'Wydatki',
+                                        data: [{% for sums in monthlydataExpanse %} {{ sums }}, {% endfor %}],
+                                        backgroundColor: [
+                                            'rgba(220, 60, 22, 0.8)',
+                                        ],
+                                      borderWidth: 0
+                                    }
+                                    ]
+                                },
+                                options: {
+                                    maintainAspectRatio: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                            </script>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

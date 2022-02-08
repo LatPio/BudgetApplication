@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+<div class="row">
+  <div class="col-md-10">
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url 'preferences' %}">Ustawienia</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Modyfikuj Źródło</li>
+        </ol>
+      </nav>
+  </div>
+
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+<form action="{% url 'source-edit' source.id %}" method="post">
+        {% csrf_token %}
+        {% include 'partials/_messages.html' %}
+
+          <div class="form-group">
+          <label for="">Nazwa</label>
+          {% csrf_token %}
+
+            <input type="text" class="form-control form-control-sm" name="nazwa" value="{{source.name}}"/>
+
+        </div>
+
+
+
+        <input type="submit" value="Zapisz" class="btn btn-primary btn-primary-sm">
+      </form>
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}

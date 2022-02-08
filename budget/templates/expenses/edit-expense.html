@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+<div class="row">
+  <div class="col-md-10">
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url 'expenses' %}">Wydatki</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Modyfikuj Wydatek</li>
+        </ol>
+      </nav>
+  </div>
+
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+      <form action="{% url 'expense-edit' expense.id %}" method="post">
+        {% csrf_token %}
+        {% include 'partials/_messages.html' %}
+
+          <div class="form-group">
+          <label for="">Kwota</label>
+          {% csrf_token %}
+
+            <input type="text" class="form-control form-control-sm" name="amount" value="{{values.amount}}"/>
+
+        </div>
+        <div class="form-group mt-1">
+
+                <select name="waluta"  value="{{values.waluta}}" class="form-control form-control-sm" id="inputGroupSelect04" aria-label="Example select with button addon">
+
+                  {% if waluta_usera.currency %}
+                  <option name="currency" selected value="{{values.waluta}}">{{values.waluta}}</option>
+                  {%endif %}
+
+                  {% for currency in currencies %}
+                    <option name="currency" value="{{currency.name_wal}} - {{currency.value_wal}}">{{currency.name_wal}} - {{currency.value_wal}}</option>
+
+                  {% endfor %}
+
+                </select>
+        </div>
+
+        <div class="form-group">
+          <label for="">Lokalizacja</label>
+            <select class="form-control form-control-sm" name="budynek">
+              {% for budynek in budynki %}
+              <option name="budynek" value="{{budynek.name}}">{{budynek.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+
+          <label for="">Opis</label>
+          <input type="text" class="form-control form-control-sm" name="description" value="{{values.description}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Kategoria</label>
+            <select class="form-control form-control-sm" name="category">
+            <option selected name="category" value="{{values.category}}">{{values.category}}</option>
+            {% for category in categories %}
+            <option name="category" value="{{category.name}}">{{category.name}}</option>
+
+            {% endfor %}
+          </select>
+            </select>
+        </div>
+
+        <div class="form-group">
+          <label for="">Data Wydatku</label>
+          <input type="date" value="{{values.date |date:'Y-m-d' }}" class="form-control form-control-sm" name="expense_date">
+        </div>
+
+        <input type="submit" value="Zapisz" class="btn btn-primary btn-primary-sm mt-4">
+        <a href="{% url 'expense-delete' expense.id %}" class="btn btn-danger btn-primary-sm mt-4" style="float:right;">Usuń</a>
+      </form>
+
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+
+

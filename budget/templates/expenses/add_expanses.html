@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+
+  <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'expenses' %}">Wydatki</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dodaj Wydatek</li>
+  </ol>
+</nav>
+
+
+
+
+<div class="card">
+    <div class="card-body">
+      <form action="{% url 'add-expenses' %}" method="post">
+        {% csrf_token %}
+        {% include 'partials/_messages.html' %}
+
+
+        <div class="form-group">
+          <label for="">Kwota</label>
+          {% csrf_token %}
+          <input type="text" class="form-control form-control-sm" name="amount" value="{{values.amount}}"/>
+        </div>
+
+        <div class="form-group mt-1">
+                <select name="waluta"  value="{{values.waluta}}" class="form-control form-control-sm" id="inputGroupSelect04" aria-label="Example select with button addon">
+
+                  {% if waluta_usera.currency %}
+                  <option name="currency" selected value="{{waluta_usera.currency}}">{{waluta_usera.currency}}</option>
+                  {%endif %}
+
+                  {% for currency in currencies %}
+                    <option name="currency" value="{{currency.name_wal}} - {{currency.value_wal}}">{{currency.name_wal}} - {{currency.value_wal}}</option>
+
+                  {% endfor %}
+
+                </select>
+        </div>
+
+        <div class="form-group">
+          <label for="">Lokalizacja</label>
+            <select class="form-control form-control-sm" name="budynek">
+              {% for budynek in budynki %}
+              <option name="budynek" value="{{budynek.name}}">{{budynek.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+
+          <label for="">Opis</label>
+          <input type="text" class="form-control form-control-sm" name="description" value="{{values.description}}"/>
+        </div>
+        <div class="form-group">
+          <label for="">Kategoria</label>
+            <select class="form-control form-control-sm" name="category">
+              {% for category in categories%}
+              <option name="category" value="{{category.name}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="">Data wydatku</label>
+          <input type="date" class="form-control form-control-sm" name="expense_date">
+
+        </div>
+
+        <div class="form-group>
+          <div class="col">
+            <input type="submit" value="Zapisz" class="btn btn-primary btn-primary-sm mt-1">
+        </div>
+      </form>
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+
+

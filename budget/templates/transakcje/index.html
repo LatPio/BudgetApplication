@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <div class="row">
+
+        <div class="col-md-10">
+          <nav aria-label="breadcrumb">
+             <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a href="{% url 'transakcje' %}">Transakcje</a></li>
+               <li class="breadcrumb-item active" aria-current="page">Moje Transakcje</li>
+            </ol>
+           </nav>
+        </div>
+    </div>
+
+
+    <div class="container-fluid mt-2">
+    {% include 'partials/_messages.html' %}
+
+<div class="row"></div>
+
+        <form method="GET" action=".">
+            <div class="form-row">
+            <div class="form-group col-12">
+            <div class="input-group">
+                <input class="form-control py-2 border-end-0" type="search" placeholder="Szukaj Wydatku" name="szukaj_opis" aria-label="default input example">
+                <button class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                </button>
+
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Kwota minimalna</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                        <input type="text" class="form-control" id="kwotamin" name="kwota_min" aria-label="Dollar amount (with dot and two decimal places)">
+                    </div>
+                </div>
+                <div class="col">
+                    <label>Kwota maksymalna</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                        <input type="text" class="form-control" id="kwotamax" name="kwota_max" aria-label="Dollar amount (with dot and two decimal places)">
+                    </div>
+                </div>
+                <div class="col">
+                    <label>Data Początkowa</label>
+                    <input type="date" class="form-control" id="datemin" name="date_min">
+                </div>
+                <div class="col">
+                    <label>Data Końcowa</label>
+                    <input type="date" class="form-control" id="datemax" name="date_max">
+                </div>
+
+            </div>
+
+        </div>
+
+            <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="align-middle">
+                        Kwota
+                    </th>
+                    <form method="GET" action=".">
+                    <th>
+                        <div class="input-group">
+                            <select class="form-select form-select-sm border-end-0" aria-label="Waluta" name="waluta_filter">
+                                <option selected>Waluta</option>
+                                    {% for cur in currencies %}
+                                <option value="{{cur.name_wal}}">{{cur.name_wal}}</option>
+                                    {% endfor %}
+                            </select>
+
+                                <button class="input-group-text bg-transparent border-start-0" type="submit">
+                                    <i class="fa fa-filter"></i>
+                                </button>
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <select class="form-select form-select-sm border-end-0" aria-label="Waluta" name="budynek_filter">
+                                <option selected>Lokalizacja</option>
+                                {% for bud in budynki %}
+                                <option value="{{ bud }}">{{ bud }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="input-group-text bg-transparent border-start-0" type="submit">
+                                    <i class="fa fa-filter"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <select class="form-select form-select-sm border-end-0" aria-label="Waluta" name="category_and_source_filter">
+                                <option selected>Kategoria</option>
+                                {% for cat in categories %}
+                                <option value="{{cat}}">{{cat}}</option>
+                                {% endfor %}
+                                {% for sor in sources %}
+                                <option value="{{sor}}">{{sor}}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="input-group-text bg-transparent border-start-0" type="submit">
+                                    <i class="fa fa-filter"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="align-middle">Opis</th>
+                    <th class="align-middle">
+                        <div class="input-group">
+                            Data
+
+    <!--                                <button class="input-group-text bg-transparent border-end-0" value="-data" name="dateorder">-->
+    <!--                                    <i class="fa fa-sort-amount-up-alt"></i>-->
+    <!--                                </button>-->
+    <!--                                <button class="input-group-text bg-transparent border-start-0" value="data" name="dateorder">-->
+    <!--                                    <i class="fa fa-sort-amount-down-alt"></i>-->
+    <!--                                </button>-->
+
+                        </div>
+                    </th>
+                    <th></th>
+                    </form>
+                </tr>
+            </thead>
+            <tbody>
+<!--        <div class="row"></div>-->
+
+<!--        <table class="table table-striped table-hover">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th class="align-middle">-->
+<!--                        Kwota-->
+<!--                    </th>-->
+<!--                    <form method="GET" action=".">-->
+<!--                    <th>Waluta</th>-->
+<!--                    <th>Lokalizacja</th>-->
+<!--                    <th>Kategoria</th>-->
+<!--                    <th class="align-middle">Opis</th>-->
+<!--                    <th class="align-middle">-->
+<!--                        data-->
+<!--                    </th>-->
+<!--                    <th></th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+
+            {% for transkacje in transakcje %}
+
+            <tr class="">
+                <td class="text-end {% if transkacje.category %} table-danger {% else %} table-success {% endif %}">{{transkacje.amount|floatformat:"2g" }}</td>
+                <td>{{transkacje.waluta}}</td>
+                <td>{{transkacje.budynek}}</td>
+                <td>{{transkacje.category}}{{transkacje.source}}</td>
+                <td>{{transkacje.description}}</td>
+                    <td>{{transkacje.date|date:'Y-m-d'}} </td>
+                <td></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+
+            </table>
+        </form>
+
+        <div class="table-output">
+
+
+
+         </div>
+
+
+
+
+<!--        <div class="pagination-container">-->
+
+<!--    <div class="">-->
+<!--        Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}-->
+<!--    </div>-->
+
+<!--    <ul class="pagination justify-content-center mr-auto">-->
+<!--    {% if page_obj.has_previous %}-->
+<!--           <li {% if page_obj.number == 1 %}  class="page-item active" {% endif %}><a  class="page-link" href="?page=1">&laquo; 1</a></li>-->
+<!--           <li class="page-item">  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Poprzedni</a></li>-->
+<!--        {% endif %}-->
+
+<!--        {% if page_obj.has_next %}-->
+<!--          <li class="page-item">   <a class="page-link" href="?page={{ page_obj.next_page_number }}">Następny</a></li>-->
+<!--          <li class="page-item">    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>-->
+<!--        {% endif %}-->
+
+
+<!--    </ul>-->
+
+
+
+
+
+<!--    </div>-->
+
+    </div>
+
+
+</div>
+{% endblock content %}
+

@@ -1,0 +1,32 @@
+#header {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background: #5F0F40;
+    color: #ede0d4;
+    overflow: hidden;
+}
+
+#branding h1  {
+    color: #ede0d4;
+    }
+
+div.breadcrumbs {
+    background: #fb8b24;
+    padding: 10px 40px;
+    border: none;
+    color: #0f4c5c;
+    text-align: left;
+  }
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    background: #fb8b24;
+    color: #0f4c5c;
