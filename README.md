@@ -2,7 +2,7 @@
 To run this applcation you need create .env (/budget/.env) file with parameters listed bellow: 
 
 //Djanog stuff
-  SECRET_KEY=
+  SECRET_KEY= /n
   DEBUG=
 //Database access
   ENGINE=
