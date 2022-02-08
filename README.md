@@ -10,7 +10,7 @@ To run this applcation you need create .env (/budget/.env) file with parameters 
   USER=
   PASSWORD=
   HOST=
-  # Your e-mail account for Sending e-mail
+Your e-mail account for Sending e-mail
   EMAIL_HOST=
   EMAIL_HOST_USER=
   EMAIL_HOST_PASSWORD=
