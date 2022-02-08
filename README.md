@@ -1,16 +1,16 @@
 # BudgetApplication
 To run this applcation you need create .env (/budget/.env) file with parameters listed bellow: 
 
-  #Djanog stuff
+//Djanog stuff
   SECRET_KEY=
   DEBUG=
-  #Database access
+//Database access
   ENGINE=
   NAME=
   USER=
   PASSWORD=
   HOST=
-Your e-mail account for Sending e-mail
+//Your e-mail account for Sending e-mail
   EMAIL_HOST=
   EMAIL_HOST_USER=
   EMAIL_HOST_PASSWORD=
